@@ -124,13 +124,13 @@ public class BigInt {
 				this.digits.set(i + 1, this.digits.get(i + 1) - 1);
 				this.digits.set(i, 10 + this.digits.get(i));
 			}
-			if (this.digits.get(this.digits.size() - 1) < 0)
-			{
-				System.out.println(this.digits);
-				this.deNegate();
-			}
 		}
-		//System.out.println(this.digits);
+		
+		if (this.digits.get(this.digits.size() - 1) < 0)
+		{
+			this.deNegate();
+		}
+		
 	}
 	/*if the BigInt is negative, negate all the digits*/
 	private void negate()
@@ -174,14 +174,13 @@ public class BigInt {
 				//exceed 9)
 				result.digits.set(i, 10 - this.digits.get(i));
 			}
-			if (i + 1 < size)
+			if (i + 1 < size && this.digits.get(i) != 0)
 			{
 				this.digits.set(i + 1, this.digits.get(i + 1) + 1);
 			}
 		}
 		this.digits = result.digits;
 		this.negative = true;
-		System.out.println(this.digits);
 		// this number is negative.
 	}
 	/*Removes zeros at the beginning of the number*/
@@ -278,6 +277,7 @@ public class BigInt {
 			this.digits.set(i, thisElement + otherElement);
 				// add the two digits
 		}
+		
 		this.carry(); // carry the ones
 		this.trimZeros();// trim the zeros for this BigInt object
 			// (remove zeros at the beginning of the number)
@@ -287,7 +287,8 @@ public class BigInt {
 	// subtract other BigInt from this BigInt
 	public void subtract(BigInt other)
 	{
-		
+		other.negative = !other.negative;
+		this.add(other);
 	}
 	/*Multiplication method*/
 	// BigInt this is called on is the one that is multiplied
@@ -334,6 +335,8 @@ public class BigInt {
 		// like signs make positive, unlike make negative
 	}
 	@Override
+	/* Returns the String representation of the BigInt*/
+	// adds negative sign if negative
 	public String toString()
 	{
 		String string = "";

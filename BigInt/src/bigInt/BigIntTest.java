@@ -4,12 +4,12 @@ public class BigIntTest
 {
 	public static void main(String[] args)
 	{
-		BigInt a = new BigInt("491");
-		BigInt b = new BigInt("-1312");
+		BigInt a = new BigInt("0");
+		BigInt b = new BigInt("1491");
 		
 		System.out.printf("%s\n%s\n****\n", a, b);
 		
-		a.add(b);
+		a.subtract(b);
 		
 		System.out.println(a);
 	}
