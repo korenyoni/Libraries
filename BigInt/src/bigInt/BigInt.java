@@ -101,24 +101,36 @@ public class BigInt {
 			int lastDigitElement = 0;
 			int carry = 0;
 			if (element > 9)
-				// if the number is positive
+				// if the number is bigger then 9 or smaller then 0
 			{
-				lastDigitElement = element % 10;
-				// remainder ten i.e. the last digit
-				carry = element / 10;
-				
 				// extend the BigInt's ArrayList by one if the next index is out of bounds
 				if (i + 1 >= this.digits.size())
 				{
 					minCapacity++;
 					this.fill(minCapacity);
 				}
+				
+				lastDigitElement = element % 10;
+				// remainder ten i.e. the last digit
+				carry = element / 10;
+				
 				this.digits.set(i + 1, this.digits.get(i + 1) + carry);
 				this.digits.set(i, lastDigitElement);
 				// set the next digit to be the current element plus the amount carried over
 				// set the current element to simply be the last digit thereof
 			}
+			else if (element < 0 && i + 1 < minCapacity)
+			{
+				this.digits.set(i + 1, this.digits.get(i + 1) - 1);
+				this.digits.set(i, 10 + this.digits.get(i));
+			}
+			if (this.digits.get(this.digits.size() - 1) < 0)
+			{
+				System.out.println(this.digits);
+				this.deNegate();
+			}
 		}
+		//System.out.println(this.digits);
 	}
 	/*if the BigInt is negative, negate all the digits*/
 	private void negate()
@@ -128,11 +140,49 @@ public class BigInt {
 			this.digits.set(i, this.digits.get(i) * - 1);
 		}
 		/**
-		 * 1 8 1
-		 * 2 1 3 	
-		 * ***
-		 * 
+		 * 1 9 1	1 8 11		0 1 8 1
+		 * 2 1 3 	3 1 2		 -3-1-2
+		 * ***		**			***
+		 * 		    1 1			  8 7 9
+		 * 		   -2 7 9
+		 * 			1 2 1
 		 */
+	}
+	/*Represent a negative number*/
+	// if the the last digit of an ArrayList is negative, set the number to be
+	// zero minus the entire BigInt
+	// this happens when subtracting a larger number from a smaller number
+	// and achieving a negative result
+	private void deNegate()
+	{
+		BigInt result = new BigInt();
+		result.fill(this.digits.size());
+		// create a BigInt object to store the final result
+		
+		int size = this.digits.size();
+		for (int i = 0; i < size ; i++)
+		{
+			if (this.digits.get(i) < 0)
+			{
+				result.digits.set(i, Math.abs(this.digits.get(i)));
+				// if the number is negative then the difference from 0
+				// is the absolute value of that number
+			}
+			else if (this.digits.get(i) != 0)
+			{
+				// otherwise the difference is from 10 (because it cannot
+				//exceed 9)
+				result.digits.set(i, 10 - this.digits.get(i));
+			}
+			if (i + 1 < size)
+			{
+				this.digits.set(i + 1, this.digits.get(i + 1) + 1);
+			}
+		}
+		this.digits = result.digits;
+		this.negative = true;
+		System.out.println(this.digits);
+		// this number is negative.
 	}
 	/*Removes zeros at the beginning of the number*/
 	private void trimZeros()
