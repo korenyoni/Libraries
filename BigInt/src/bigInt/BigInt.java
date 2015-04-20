@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /*Class BigInt*/
 // my implementation of Big Integer
-// behaves like a linked list
+// relies on an ArrayList which represents digits, but they are ordered in reverse
 public class BigInt {
 	/*Attributes*/
 	private ArrayList<Integer> digits; // the digits of the BigInt
@@ -140,14 +140,6 @@ public class BigInt {
 		{
 			this.digits.set(i, this.digits.get(i) * - 1);
 		}
-		/**
-		 * 1 9 1	1 8 11		0 1 8 1
-		 * 2 1 3 	3 1 2		 -3-1-2
-		 * ***		**			***
-		 * 		    1 1			  8 7 9
-		 * 		   -2 7 9
-		 * 			1 2 1
-		 */
 	}
 	/*Represent a negative number*/
 	// if the the last digit of an ArrayList is negative, set the number to be
