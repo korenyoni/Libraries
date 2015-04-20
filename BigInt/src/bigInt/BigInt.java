@@ -62,6 +62,7 @@ public class BigInt {
 			"\nMust enter a number with or without a negative sign at the front.");
 		}
 		negative = number.matches("-\\d+");
+        // if the string is in the format "-(number)", then it is negative
 		for (int i = number.length() - 1; i >= 0; i--)
 		{
 			// parse the character at the given index to an integer
@@ -73,7 +74,7 @@ public class BigInt {
 				i = 0;
 			}
 		}
-		
+
 	}
 
 	/*Fill the BigInt object with 0's*/
@@ -109,11 +110,11 @@ public class BigInt {
 					minCapacity++;
 					this.fill(minCapacity);
 				}
-				
+
 				lastDigitElement = element % 10;
 				// remainder ten i.e. the last digit
 				carry = element / 10;
-				
+
 				this.digits.set(i + 1, this.digits.get(i + 1) + carry);
 				this.digits.set(i, lastDigitElement);
 				// set the next digit to be the current element plus the amount carried over
@@ -125,12 +126,12 @@ public class BigInt {
 				this.digits.set(i, 10 + this.digits.get(i));
 			}
 		}
-		
+
 		if (this.digits.get(this.digits.size() - 1) < 0)
 		{
 			this.deNegate();
 		}
-		
+
 	}
 	/*if the BigInt is negative, negate all the digits*/
 	private void negate()
@@ -158,7 +159,7 @@ public class BigInt {
 		BigInt result = new BigInt();
 		result.fill(this.digits.size());
 		// create a BigInt object to store the final result
-		
+
 		int size = this.digits.size();
 		for (int i = 0; i < size ; i++)
 		{
@@ -212,7 +213,7 @@ public class BigInt {
 		boolean biggerThan = false;
 		boolean same = false; // the digits are the same
 			// (regardless of negative sign)
-		
+
 		if (this.digits.size() == other.digits.size())
 		{
 			int size = this.digits.size();
@@ -222,7 +223,7 @@ public class BigInt {
 				if (this.digits.get(i) != other.digits.get(i))
 				{
 					biggerThan = this.digits.get(i) > other.digits.get(i);
-					// if the current digit for this is bigger than other, 
+					// if the current digit for this is bigger than other,
 					// then this is bigger than other
 					if (this.negative && !other.negative
 							|| !this.negative && other.negative)
@@ -238,14 +239,14 @@ public class BigInt {
 					same = true;
 				}
 			}
-		}	
+		}
 		biggerThan = this.digits.size() > other.digits.size();
-		
+
 		if (this.negative && !same)
 		{
 			biggerThan = !biggerThan;
 		}
-		
+
 		return biggerThan;
 	}
 	/*Add another BigInt to this BigInt*/
@@ -254,7 +255,7 @@ public class BigInt {
 		// copy the two argument BigIntnegative = number.matches("-\\d+"); by using their toString
 		// and the BigInt(String) constructor
 		int minCapacity = Math.max(this.digits.size(), other.digits.size());
-			// the minimum capacity both BigInt objects have to 
+			// the minimum capacity both BigInt objects have to
 		this.fill(minCapacity);
 		other.fill(minCapacity);
 			// ensure that both BigInt objects have the same number of digits
@@ -277,11 +278,11 @@ public class BigInt {
 			this.digits.set(i, thisElement + otherElement);
 				// add the two digits
 		}
-		
+
 		this.carry(); // carry the ones
 		this.trimZeros();// trim the zeros for this BigInt object
 			// (remove zeros at the beginning of the number)
-		
+
 	}
 	/*Subtraction method*/
 	// subtract other BigInt from this BigInt
@@ -297,13 +298,13 @@ public class BigInt {
 		// the BigInt object to store the result in temporarily
 		BigInt result = new BigInt();
 		int maxDigits = Math.max(this.digits.size(), other.digits.size());
-		result.fill(maxDigits); // fill the result so it contains as many 
+		result.fill(maxDigits); // fill the result so it contains as many
 			// zeros as the largest object's digit ArrayList
 		// long multiplication
 		// multiply each digit of the second number by each digit in the first number
 		// each time you move on to another digit in the first number, skip a space
 		// carry the one to the right if the column exceeds 9
-		
+
 		int indexSpace = 0; // number of spaces to be skipped (you skip after finishing a digit
 		// in the first number)
 		for (int i = 0; i < this.digits.size(); i++)
